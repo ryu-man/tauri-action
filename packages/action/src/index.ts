@@ -43,6 +43,9 @@ async function run(): Promise<void> {
     const owner = core.getInput('owner') ?? context.repo.owner
     const repo = core.getInput('repo') ?? context.repo.repo
 
+    console.log(`owner: ${owner}`)
+    console.log(`repo: ${repo}`)
+
     if (Boolean(tagName) !== Boolean(releaseName)) {
       throw new Error(
         '`tag` is required along with `releaseName` when creating a release.'
