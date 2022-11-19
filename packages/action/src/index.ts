@@ -44,6 +44,7 @@ async function run(): Promise<void> {
     const repo = core.getInput('repo')
 
     console.log(`context.repo: ${JSON.stringify(context.repo)}`)
+    console.log(`env: ${process.env.GITHUB_REPOSITORY}`)
 
 
   } catch (error) {
