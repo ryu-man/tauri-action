@@ -42,7 +42,7 @@ inputs:
   owner:
     description: 'Publish repository owner's name'
   repo:
-    description: 'Publish repository's name
+    description: 'Publish repository's name'
 outputs:
   releaseId:
     description: 'The ID of the created release'
