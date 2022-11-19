@@ -40,9 +40,9 @@ inputs:
   bundleIdentifier:
     description: 'the bundle identifier to inject when initializing the Tauri app'
   owner:
-    description: 'Publish repository owner's name'
+    description: 'The owner name of the publish repository'
   repo:
-    description: 'Publish repository's name'
+    description: 'The name of the publish repository'
 outputs:
   releaseId:
     description: 'The ID of the created release'
