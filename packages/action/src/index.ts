@@ -13,6 +13,8 @@ import {
 } from '@tauri-apps/action-core'
 import type { BuildOptions } from '@tauri-apps/action-core'
 import stringArgv from 'string-argv'
+import { context } from '@actions/github'
+
 
 async function run(): Promise<void> {
   try {
@@ -37,6 +39,9 @@ async function run(): Promise<void> {
     const draft = core.getBooleanInput('releaseDraft')
     const prerelease = core.getBooleanInput('prerelease')
     const commitish = core.getInput('releaseCommitish') || null
+
+    const owner = core.getInput('owner') ?? context.repo.owner
+    const repo = core.getInput('repo') ?? context.repo.repo
 
     if (Boolean(tagName) !== Boolean(releaseName)) {
       throw new Error(
@@ -82,14 +87,16 @@ async function run(): Promise<void> {
         body = body.replace(regex, template.value)
       })
 
-      const releaseData = await createRelease(
+      const releaseData = await createRelease({
         tagName,
         releaseName,
         body,
-        commitish || undefined,
+        commitish: commitish || undefined,
         draft,
-        prerelease
-      )
+        prerelease,
+        owner,
+        repo
+      })
       releaseId = releaseData.id
       core.setOutput('releaseUploadUrl', releaseData.uploadUrl)
       core.setOutput('releaseId', releaseData.id.toString())
@@ -123,12 +130,14 @@ async function run(): Promise<void> {
           i++
         }
       }
-      await uploadReleaseAssets(releaseId, artifacts)
+      await uploadReleaseAssets(releaseId, artifacts, { owner, repo })
       await uploadVersionJSON({
         version: info.version,
         notes: body,
         releaseId,
-        artifacts
+        artifacts,
+        owner,
+        repo
       })
     }
   } catch (error) {

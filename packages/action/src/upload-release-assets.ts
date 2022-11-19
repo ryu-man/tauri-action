@@ -3,9 +3,15 @@ import { Artifact } from '@tauri-apps/action-core'
 import fs from 'fs'
 import { getAssetName } from './utils'
 
+type UploadOptions = {
+	owner: string;
+	repo: string;
+};
+
 export default async function uploadAssets(
-  releaseId: number,
-  assets: Artifact[]
+	releaseId: number,
+	assets: Artifact[],
+	{ owner, repo }: UploadOptions
 ) {
   if (process.env.GITHUB_TOKEN === undefined) {
     throw new Error('GITHUB_TOKEN is required')
@@ -15,8 +21,8 @@ export default async function uploadAssets(
 
   const existingAssets = (
     await github.rest.repos.listReleaseAssets({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      owner,
+      repo,
       release_id: releaseId,
       per_page: 50
     })
@@ -37,8 +43,8 @@ export default async function uploadAssets(
     if (existingAsset) {
       console.log(`Deleting existing ${assetName}...`)
       await github.rest.repos.deleteReleaseAsset({
-        owner: context.repo.owner,
-        repo: context.repo.repo,
+        owner,
+        repo,
         asset_id: existingAsset.id
       })
     }
@@ -51,8 +57,8 @@ export default async function uploadAssets(
       // https://github.com/tauri-apps/tauri-action/pull/45
       // @ts-ignore error TS2322: Type 'Buffer' is not assignable to type 'string'.
       data: fs.readFileSync(asset.path),
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      owner,
+      repo,
       release_id: releaseId
     })
   }

@@ -196,6 +196,8 @@ jobs:
 | `includeDebug`     |  false   | whether to include a debug build or not                                                     | bool   |                       |
 | `tauriScript`      |  false   | the script to execute the Tauri CLI                                                         | string | `yarn\|npx tauri`     |
 | `args`             |  false   | Additional arguments to the current build command                                           | string |                       |
+| `owner`             |  false   | The name of the publish repository's owner                                                 | string | `context.repo.owner`                       |
+| `repo`             |  false   | The name of the publish repository                                           | string |`contex.repo.repo`                       |
 
 
 ## Outputs

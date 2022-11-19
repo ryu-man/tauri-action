@@ -25,14 +25,27 @@ function allReleases(
   )
 }
 
-export default async function createRelease(
-  tagName: string,
-  releaseName: string,
-  body?: string,
-  commitish?: string,
+type CreateReleaseOptions = {
+  tagName: string
+  releaseName: string
+  body?: string
+  commitish?: string
+  draft?: boolean,
+  prerelease?: boolean,
+  owner: string
+  repo: string
+}
+
+export default async function createRelease({
+  tagName,
+  releaseName,
+  body,
+  commitish,
   draft = true,
-  prerelease = true
-): Promise<Release> {
+  prerelease = true,
+  owner,
+  repo
+}: CreateReleaseOptions): Promise<Release> {
   if (process.env.GITHUB_TOKEN === undefined) {
     throw new Error('GITHUB_TOKEN is required')
   }
@@ -41,7 +54,6 @@ export default async function createRelease(
   const github = getOctokit(process.env.GITHUB_TOKEN)
 
   // Get owner and repo from context of payload that triggered the action
-  const { owner, repo } = context.repo
 
   const bodyPath = core.getInput('body_path', { required: false })
   let bodyFileContent = null
