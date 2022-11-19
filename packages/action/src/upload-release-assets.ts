@@ -11,19 +11,16 @@ type UploadOptions = {
 export default async function uploadAssets(
 	releaseId: number,
 	assets: Artifact[],
-	options: UploadOptions
+	{
+    owner,
+    repo
+  }: UploadOptions
 ) {
   if (process.env.GITHUB_TOKEN === undefined) {
     throw new Error('GITHUB_TOKEN is required')
   }
 
   const github = getOctokit(process.env.GITHUB_TOKEN)
-
-  const owner = options.owner ?? context.repo.owner
-  const repo = options.repo ?? context.repo.repo
-
-  console.log(`context.repo: ${JSON.stringify(context.repo)}`)
-
 
   const existingAssets = (
     await github.rest.repos.listReleaseAssets({

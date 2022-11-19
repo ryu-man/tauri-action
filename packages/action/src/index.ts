@@ -40,11 +40,11 @@ async function run(): Promise<void> {
     const prerelease = core.getBooleanInput('prerelease')
     const commitish = core.getInput('releaseCommitish') || null
 
-    const owner = core.getInput('owner')
-    const repo = core.getInput('repo')
+    const owner = core.getInput('owner') || context.repo.owner
+    const repo = core.getInput('repo') || context.repo.repo
 
-    console.log(`context.repo: ${JSON.stringify(context.repo)}`)
-
+    console.log(`context.repo.owner: ${owner}`)
+    console.log(`context.repo.repo: ${repo}`)
 
     if (Boolean(tagName) !== Boolean(releaseName)) {
       throw new Error(
