@@ -43,8 +43,11 @@ async function run(): Promise<void> {
     const owner = core.getInput('owner')
     const repo = core.getInput('repo')
 
-    console.log(`context.repo: ${JSON.stringify(context.repo)}`)
+    console.log(`context.repo.owner: ${JSON.stringify(context.repo.owner)}`)
     console.log(`env: ${process.env.GITHUB_REPOSITORY}`)
+    console.log(`owner: ${owner}`)
+    console.log(`repo: ${repo}`)
+
 
 
   } catch (error) {
