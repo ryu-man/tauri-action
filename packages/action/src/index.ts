@@ -40,8 +40,8 @@ async function run(): Promise<void> {
     const prerelease = core.getBooleanInput('prerelease')
     const commitish = core.getInput('releaseCommitish') || null
 
-    const owner = core.getInput('owner')
-    const repo = core.getInput('repo')
+    const owner = core.getInput('owner') ?? context.repo.owner
+    const repo = core.getInput('repo') ?? context.repo.repo
 
     console.log(`context.repo.owner: ${JSON.stringify(context.repo.owner)}`)
     console.log(`env: ${process.env.GITHUB_REPOSITORY}`)
