@@ -22,7 +22,7 @@ export default async function uploadAssets(
   const owner = options.owner ?? context.repo.owner
   const repo = options.repo ?? context.repo.repo
 
-  console.log(`context.repo: ${context.repo}`)
+  console.log(`context.repo: ${JSON.stringify(context.repo)}`)
 
 
   const existingAssets = (

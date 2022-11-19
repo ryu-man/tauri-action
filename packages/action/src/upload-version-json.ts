@@ -33,7 +33,8 @@ export default async function uploadVersionJSON(options: UploadVersionOptions) {
   const owner = options.owner ?? context.repo.owner
   const repo = options.repo ?? context.repo.repo
 
-  console.log(`context.repo: ${context.repo}`)
+  console.log(`context.repo: ${  console.log(`context.repo: ${JSON.stringify(context.repo)}`)
+}`)
 
 	const versionFilename = "latest.json";
 	const versionFile = resolve(process.cwd(), versionFilename);

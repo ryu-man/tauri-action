@@ -43,7 +43,7 @@ async function run(): Promise<void> {
     const owner = core.getInput('owner')
     const repo = core.getInput('repo')
 
-    console.log(`context.repo: ${context.repo}`)
+    console.log(`context.repo: ${JSON.stringify(context.repo)}`)
 
 
     if (Boolean(tagName) !== Boolean(releaseName)) {
