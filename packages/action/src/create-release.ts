@@ -36,22 +36,26 @@ type CreateReleaseOptions = {
   repo: string
 }
 
-export default async function createRelease({
-  tagName,
-  releaseName,
-  body,
-  commitish,
-  draft = true,
-  prerelease = true,
-  owner,
-  repo
-}: CreateReleaseOptions): Promise<Release> {
+export default async function createRelease(options:CreateReleaseOptions): Promise<Release> {
   if (process.env.GITHUB_TOKEN === undefined) {
     throw new Error('GITHUB_TOKEN is required')
   }
-
+  const {
+    tagName,
+    releaseName,
+    body,
+    commitish,
+    draft = true,
+    prerelease = true,
+  } = options
   // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
   const github = getOctokit(process.env.GITHUB_TOKEN)
+  
+  const owner = options.owner ?? context.repo.owner
+  const repo = options.repo ?? context.repo.repo
+
+  console.log(`owner: ${owner}`)
+  console.log(`repo: ${repo}`)
 
   // Get owner and repo from context of payload that triggered the action
 

@@ -16,20 +16,26 @@ type UploadVersionOptions = {
 	repo: string;
 };
 
-export default async function uploadVersionJSON({
-	version,
-	notes,
-	releaseId,
-	artifacts,
-	owner,
-	repo,
-}: UploadVersionOptions) {
+export default async function uploadVersionJSON(options: UploadVersionOptions) {
 	if (process.env.GITHUB_TOKEN === undefined) {
 		throw new Error("GITHUB_TOKEN is required");
 	}
 
+  const {
+    version,
+    notes,
+    releaseId,
+    artifacts,
+  } = options
+
 	const github = getOctokit(process.env.GITHUB_TOKEN);
 
+  const owner = options.owner ?? context.repo.owner
+  const repo = options.repo ?? context.repo.repo
+
+  console.log(`owner: ${owner}`)
+  console.log(`repo: ${repo}`)
+  
 	const versionFilename = "latest.json";
 	const versionFile = resolve(process.cwd(), versionFilename);
 	const versionContent = {
