@@ -22,9 +22,9 @@ export default async function uploadAssets(
   const owner = options.owner ?? context.repo.owner
   const repo = options.repo ?? context.repo.repo
 
-  console.log(`owner: ${owner}`)
-  console.log(`repo: ${repo}`)
-  
+  console.log(`context.repo: ${context.repo}`)
+
+
   const existingAssets = (
     await github.rest.repos.listReleaseAssets({
       owner,
